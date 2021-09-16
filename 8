@@ -1,0 +1,17 @@
+r = 'топо т'
+
+r = r.replace(',', '')
+r = r.replace('.', '')
+r = r.replace('-', '')
+r = r.replace('*', '')
+r = r.replace(':', '')
+r = r.replace(' ', '')
+r = r.replace(';', '')
+r = r.replace('|', '')
+r = r.replace('/', '')
+
+if r == r[::-1]:
+    print(True)
+else:
+    print(False)
+print(r)
