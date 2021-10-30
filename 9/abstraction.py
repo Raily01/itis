@@ -1,82 +1,93 @@
 from abc import abstractmethod, ABC
+from math import pi
 
 
-class Transport(ABC):
-    def __init__(self, ram_weight: float, wheel_weight: float):
-        """
-        Constructs Transport class
-        :param ram_weight: The ram weight
-        :param wheel_weight: Single wheel weight
-        """
-        self.ram_weight = ram_weight
-        self.wheel_weight = wheel_weight
+class GeometricShapes(ABC):
+    def __init__(self, radius: float):
+        '''
+        Constructs Geometric Shapes class
+        :param radius:  radius of our shape
+        '''
+        self.radius = radius
+        pass
 
     @abstractmethod
-    def calculate_weight(self):
-        """
-        Calculate weight of current transport
+    def square(self):
+        '''
+        Calculate a square of our shape
         :return: float
-        """
+        '''
+        pass
+
+    @abstractmethod
+    def perimeter(self):
+        '''
+        Calculate a perimeter of our shape
+        :return:
+        '''
         pass
 
 
-class Bicycle(Transport):
-    number_of_wheels = 2
+class Round(GeometricShapes):
+    def square(self):
+        return pi * (Round.radius) ** 2
 
-    def calculate_weight(self):
-        return self.ram_weight + Bicycle.number_of_wheels * self.wheel_weight
-
-
-class MotoTransport(Transport, ABC):
-    def __init__(self, ram_weight: float, wheel_weight: float, engine_weight: float):
-        """
-        Constructs Transport class
-        :param ram_weight: The ram weight
-        :param wheel_weight: Single wheel weight
-        :param engine_weight: The engine weight
-        """
-        super().__init__(ram_weight, wheel_weight)
-        self.engine_weight = engine_weight
+    def perimeter(self):
+        return pi * 2 * Round.radius
 
 
-class MotoBike(MotoTransport):
-    number_of_wheels = 2
-
-    def calculate_weight(self):
-        return self.ram_weight + MotoBike.number_of_wheels * self.wheel_weight + self.engine_weight
-
-
-class Car(MotoTransport):
-    number_of_wheels = 4
-
-    def __init__(self, ram_weight: float, wheel_weight: float, engine_weight: float, cabin_weight: float):
-        """
-        The Car constructor
-
-        :param ram_weight:
-        :param wheel_weight:
-        :param engine_weight:
-        :param cabin_weight:
-        """
-        super().__init__(ram_weight, wheel_weight, engine_weight)
-        self.cabin_weight = cabin_weight
-
-    def calculate_weight(self):
-        return self.ram_weight + Car.number_of_wheels * self.wheel_weight + self.engine_weight + self.cabin_weight
+class AbsQuadrilateral(GeometricShapes, ABC):
+    def __init__(self, heigh: float, weigh_first: float):
+        '''
+        Constructs Quadrilateral class
+        :param heigh: heigh of our Quadrilateral
+        :param weigh_first: weigh of our Quadrilateral
+        '''
+        super().__init__(heigh,weigh_first)
+        self.heigh = heigh
+        self.weigh_first = weigh_first
 
 
-def utilisation(ts: Transport):
-    print(ts.calculate_weight())
-    print("It's destroyed")
+class Rectangle(AbsQuadrilateral):
+    def square(self):
+        return self.heigh * self.weigh_first
 
-transport_list = []
-bicycle = Bicycle(10, 5)
-transport_list.append(bicycle)
-moto = MotoBike(20, 10, 25)
-transport_list.append(moto)
-car = Car(200, 20, 500, 400)
-transport_list.append(car)
-for transport in transport_list:
-    print(transport.calculate_weight())
-    utilisation(transport)
+    def perimeter(self):
+        return (self.weigh_first + self.heigh) * 2
 
+
+class Trapezoid(AbsQuadrilateral):
+    def __init__(self, heigh: float, weigh_first: float, weigh_second: float):
+        '''
+        Constructs Trapezoid class
+        :param heigh: heigh of our Trapezoid
+        :param weigh_first: first weigh of our Trapezoid
+        :param weigh_second: second weigh of our Trapezoid
+        '''
+        super().__init__(heigh, weigh_first, weigh_second)
+        self.weigh_second = weigh_second
+
+    def square(self):
+        return (self.weigh_second + self.weigh_second) / 2 * self.heigh
+
+
+class Parallelogram(AbsQuadrilateral):
+    def square(self):
+        return self.heigh * self.weigh_first
+
+    def perimeter(self):
+        return (self.weigh_first + self.heigh) * 2
+
+
+'''
+Геометрия.
+    Создать класс абстрактный Геометрическая фигура
+        Абстрактный метод площадь
+        Абстрактный метод переметр
+Класс круг
+Класс абстрактный четырехугольник
+    Прямоугольник
+    Трапеция
+    Параллелограмм'''
+par = Parallelogram(2,3)
+print(par)
